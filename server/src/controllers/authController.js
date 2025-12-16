@@ -9,7 +9,6 @@ const generateToken = (id) => {
     });
 };
 
-
 const registerUser = async (req, res) => {
     const { name, email, password, phone } = req.body;
     const role = 'customer'; // Default role for registration [cite: 9]
@@ -73,4 +72,16 @@ const loginUser = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser };
+const getMe = async (req, res) => {
+    console.log("User...", req.user);
+    if (!req.user) {
+        return res.status(401).json({ message: 'Not authorized' });
+    }
+    const { _id, name, email, role, phone } = req.user;
+
+    res.json({
+        _id, name, email, role, phone
+    });
+};
+
+module.exports = { registerUser, loginUser, getMe };
