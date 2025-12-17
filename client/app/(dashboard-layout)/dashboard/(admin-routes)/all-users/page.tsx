@@ -2,7 +2,7 @@
 "use client";
 
 import UserCard from "@/components/UserCard";
-import { useAllUsers } from "@/lib/Users";
+import { useAllUsers } from "@/lib/users";
 import { User } from "@/types/types";
 
 export default function AllUsers() {

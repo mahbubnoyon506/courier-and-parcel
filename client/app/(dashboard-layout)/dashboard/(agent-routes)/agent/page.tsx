@@ -1,7 +1,7 @@
 "use client";
 import AssignedBookings from "@/components/AssignedBookings";
 import { Spinner } from "@/components/ui/spinner";
-import { useAssignedParcels, useUpdateStatus } from "@/lib/Bookings";
+import { useAssignedParcels, useUpdateStatus } from "@/lib/bookings";
 
 export default function AgentDashboard() {
   const { data: bookings, isLoading, isError, error } = useAssignedParcels();

@@ -2,7 +2,7 @@
 "use client";
 
 import AgentCard from "@/components/AgentCard";
-import { useAllAgents } from "@/lib/Agents";
+import { useAllAgents } from "@/lib/agents";
 
 import { Agent } from "@/types/types";
 

@@ -55,3 +55,32 @@ export const useUpdateStatus = () => {
     },
   });
 };
+
+export const useAssignAgent = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      parcelId,
+      agentId,
+    }: {
+      parcelId: string;
+      agentId: ParcelStatus;
+    }) => {
+      try {
+        const res = await api.put(`/parcels/${parcelId}/assign`, { agentId });
+        return res.data;
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.message || "Failed to assign parcel";
+        throw new Error(errorMessage);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: BOOKINGS_QUERY_KEY });
+    },
+    onError: (error) => {
+      console.error("Assign parcel failed:", error.message);
+    },
+  });
+};

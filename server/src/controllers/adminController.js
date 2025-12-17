@@ -1,5 +1,7 @@
 const Parcel = require('../models/Parcel');
 const User = require('../models/User');
+const Parser = require('json2csv').Parser;
+// const Parser = require('json2csv');
 
 
 const assignAgentToParcel = async (req, res) => {
@@ -23,9 +25,6 @@ const assignAgentToParcel = async (req, res) => {
         if (parcel.assignedAgentId && parcel.assignedAgentId.toString() === agentId) {
             return res.status(400).json({ message: 'Parcel is already assigned to this agent.' });
         }
-        if (parcel.status !== 'Pending') {
-            return res.status(400).json({ message: `Cannot re-assign: Parcel status is currently ${parcel.status}.` });
-        }
 
 
         //Update the parcel with the new agent ID and status
@@ -33,9 +32,6 @@ const assignAgentToParcel = async (req, res) => {
         parcel.status = 'Picked Up'; // Automatically change status to 'Picked Up' upon assignment confirmation
 
         await parcel.save();
-
-        // In a real application, this is where we would emit a Socket.IO event to the Agent's dashboard
-        // and potentially send an Email/SMS notification to the Customer (Bonus feature)[cite: 41].
 
         res.status(200).json({
             message: `Parcel ${parcelId} successfully assigned to agent ${agent.name}. Status updated to 'Picked Up'.`,
@@ -134,21 +130,40 @@ const getDashboardMetrics = async (req, res) => {
 
 
 const exportBookingReport = async (req, res) => {
-    const allBookings = await Parcel.find({})
-        .populate('senderId', 'name email')
-        .populate('assignedAgentId', 'name')
-        .lean(); // Use .lean() for plain JS objects for faster processing
+    try {
+        const allBookings = await Parcel.find({})
+            .populate('senderId', 'name email')
+            .populate('assignedAgentId', 'name')
+            .lean();
 
-    // 2. Using a library like 'json2csv' to convert the data into a CSV string.
-    // 3. Setting response headers:
-    // res.header('Content-Type', 'text/csv');
-    // res.attachment('bookings_report.csv');
-    // res.send(csvData);
+        // Define which fields you want in the CSV and their column headers
+        const fields = [
+            { label: 'Booking ID', value: '_id' },
+            { label: 'Sender Name', value: 'senderId.name' },
+            { label: 'Sender Email', value: 'senderId.email' },
+            { label: 'Pickup Address', value: 'pickupAddress' },
+            { label: 'Delivery Address', value: 'deliveryAddress' },
+            { label: 'Parcel Type', value: 'parcelType' },
+            { label: 'Weight (kg)', value: 'weight' },
+            { label: 'Agent Name', value: (row) => row.assignedAgentId?.name || 'Unassigned' },
+            { label: 'Status', value: 'status' },
+            { label: 'Paid', value: (row) => row.isPaid ? 'Yes' : 'No' },
+            { label: 'Date', value: (row) => new Date(row.createdAt).toLocaleDateString() }
+        ];
 
-    res.status(200).json({
-        message: 'Report generation endpoint successful. Implement CSV/PDF conversion using a library like json2csv or pdfkit.',
-        data: allBookings.slice(0, 5)
-    });
+        const json2csvParser = new Parser({ fields });
+        const csv = json2csvParser.parse(allBookings);
+
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', 'attachment; filename=bookings_report.csv');
+        console.log(csv);
+
+        return res.status(200).send(csv);
+
+    } catch (error) {
+        console.error('Export Error:', error);
+        res.status(500).json({ message: 'Failed to generate report' });
+    }
 };
 
 module.exports = {

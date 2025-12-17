@@ -1,12 +1,11 @@
 "use client";
 import BookingsTable from "@/components/BookingsTable";
 import { Spinner } from "@/components/ui/spinner";
-import { useAllBookings } from "@/lib/Bookings";
+import { useAllBookings } from "@/lib/bookings";
 import React from "react";
 
 const AllBookings = () => {
   const { data: bookings, isLoading, isError, error } = useAllBookings();
-  console.log(bookings);
 
   if (isLoading) {
     return (

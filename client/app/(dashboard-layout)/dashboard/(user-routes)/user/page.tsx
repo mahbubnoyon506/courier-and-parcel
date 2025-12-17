@@ -6,6 +6,7 @@ import { CreateBooking } from "@/components/CreateBooking";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useMyBookings } from "@/lib/myBookings";
+import { Booking } from "@/types/types";
 import { PlusCircle } from "lucide-react";
 
 export default function UserDashboard() {
@@ -28,14 +29,6 @@ export default function UserDashboard() {
     );
   }
 
-  // if (!bookings || bookings.length === 0) {
-  //   return (
-  //     <p className="p-4 text-muted-foreground">
-  //       You have no active parcel bookings.
-  //     </p>
-  //   );
-  // }
-
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">My Parcel Bookings</h2>
@@ -47,7 +40,7 @@ export default function UserDashboard() {
           </Button>
         }
       />
-      {bookings.map((booking) => (
+      {bookings.map((booking: Booking) => (
         <BookingCard key={booking._id} booking={booking} />
       ))}
     </div>

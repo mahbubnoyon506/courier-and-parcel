@@ -1,12 +1,5 @@
 "use client";
-import {
-  Home,
-  BarChart,
-  Settings,
-  Users,
-  HatGlasses,
-  ListTodo,
-} from "lucide-react";
+import { Home, Users, HatGlasses, ListTodo } from "lucide-react";
 import NavItem from "./NavItem";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/context/AuthContext";
@@ -46,16 +39,6 @@ const userItems = [
     icon: <Home />,
     href: "user",
   },
-  {
-    name: "Analytics",
-    icon: <BarChart />,
-    href: "analytics",
-  },
-  {
-    name: "user Dashboard",
-    icon: <Settings />,
-    href: "settings",
-  },
 ];
 const sidebarNav = (role = "customer") => {
   switch (role) {
@@ -75,12 +58,14 @@ export default function Sidebar() {
   const navItems = sidebarNav(user?.role);
 
   return (
-    <div className="hidden md:flex flex-col w-64 bg-white border-r dark:bg-gray-950 dark:border-gray-800">
-      <div className="flex items-center h-16 p-4">
-        <h1 className="text-xl font-bold capitalize">MyApp {user?.role}</h1>
+    <div className=" md:flex flex-col w-20 md:w-64 bg-white border-r dark:bg-gray-950 dark:border-gray-800">
+      <div className="flex items-center h-16 p-3">
+        <h1 className="text-sm md:text-xl font-semibold md:font-bold capitalize">
+          MyApp {user?.role}
+        </h1>
       </div>
       <Separator />
-      <nav className="flex-1 p-4 space-y-2">
+      <nav className={`flex-1 p-3 space-y-2`}>
         {navItems.map((item, i) => (
           <NavItem
             key={i}

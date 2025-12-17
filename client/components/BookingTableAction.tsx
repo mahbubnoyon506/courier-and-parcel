@@ -15,14 +15,9 @@ import { useDeleteBooking } from "@/lib/myBookings";
 type Props = {
   booking: Booking;
   onAssign: (booking: Booking) => void;
-  setOpen: (open: boolean) => void;
 };
 
-export default function BookingTableAction({
-  booking,
-  onAssign,
-  setOpen,
-}: Props) {
+export default function BookingTableAction({ booking, onAssign }: Props) {
   const { mutate: deleteBooking } = useDeleteBooking();
 
   return (
@@ -34,12 +29,7 @@ export default function BookingTableAction({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end">
-        <DropdownMenuItem
-          onClick={() => {
-            onAssign(booking);
-            setOpen(true);
-          }}
-        >
+        <DropdownMenuItem onClick={() => onAssign(booking)}>
           Assign Agent
         </DropdownMenuItem>
 
