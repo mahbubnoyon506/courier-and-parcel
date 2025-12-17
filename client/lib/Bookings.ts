@@ -16,6 +16,29 @@ export function useAllBookings() {
   });
 }
 
+export const useDeleteBooking = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      try {
+        const res = await api.delete(`/bookings/${id}`);
+        return res.data;
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.message || "Failed to delete booking";
+        throw new Error(errorMessage);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: BOOKINGS_QUERY_KEY });
+    },
+    onError: (error) => {
+      console.error("Booking deletion failed:", error.message);
+    },
+  });
+};
+
 export function useAssignedParcels() {
   return useQuery({
     queryKey: PARCEL_QUERY_KEY,

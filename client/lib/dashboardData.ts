@@ -31,7 +31,6 @@ export const useExportReport = () => {
         "download",
         `bookings_report_${new Date().toLocaleDateString()}.csv`
       );
-
       document.body.appendChild(link);
       link.click();
       link.remove();

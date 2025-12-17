@@ -6,7 +6,8 @@ const {
     getAllBookings,
     exportBookingReport,
     getDashboardMetrics,
-    getAllAgents
+    getAllAgents,
+    deleteBooking
 } = require('../controllers/adminController');
 const router = express.Router();
 
@@ -24,6 +25,7 @@ router.route('/agents').get(getAllAgents);
 
 //View All Bookings 
 router.route('/bookings').get(getAllBookings);
+router.route('/bookings/:parcelId').delete(deleteBooking);
 
 router.route('/metrics').get(getDashboardMetrics);
 

@@ -53,6 +53,21 @@ const viewBookingHistory = async (req, res) => {
     }
 };
 
+const deleteBooking = async (req, res) => {
+    try {
+        const { parcelId } = req.params;
+        if (!parcelId) return res.status(403).json({ message: `No parcel found with this id ${parcelId}` })
+        const parcel = await Parcel.findById(parcelId);
+        if (parcel.status !== 'Pending') {
+            return res.status(500).json({ message: `You delete a parcel which already in ${parcel.status}` })
+        }
+        const deleteParcel = await Parcel.findByIdAndDelete(parcelId)
+        res.status(200).json({ message: "Parcel deleted", deleteParcel });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting parcel.', error: error.message });
+    }
+};
+
 const viewAssignedParcels = async (req, res) => {
     const agentId = req.user._id;
 
@@ -158,6 +173,6 @@ module.exports = {
     viewBookingHistory,
     viewAssignedParcels,
     updateParcelStatus,
-    getParcelTracking
-
+    getParcelTracking,
+    deleteBooking
 };

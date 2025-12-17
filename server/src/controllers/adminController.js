@@ -74,6 +74,17 @@ const getAllBookings = async (req, res) => {
     }
 };
 
+const deleteBooking = async (req, res) => {
+    try {
+        const { parcelId } = req.params;
+        if (!parcelId) return res.status(403).json({ message: "No parcel id found!" })
+        const parcel = await Parcel.findByIdAndDelete(parcelId)
+        res.status(200).json({ message: `Deleted item with id: ${parcelId}`, parcel });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting booking.', error: error.message });
+    }
+};
+
 const getDashboardMetrics = async (req, res) => {
     try {
         const today = new Date();
@@ -172,5 +183,6 @@ module.exports = {
     getAllAgents,
     getAllBookings,
     getDashboardMetrics,
-    exportBookingReport
+    exportBookingReport,
+    deleteBooking
 };

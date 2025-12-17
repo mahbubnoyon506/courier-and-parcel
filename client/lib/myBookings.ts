@@ -41,16 +41,25 @@ export function useCreateBooking() {
 }
 
 // --- DELETE Hook ---
-export const useDeleteBooking = () => {
+export const useDeleteMyBooking = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: deleteBooking,
+    mutationFn: async (id: string) => {
+      try {
+        const res = await api.delete(`/history/${id}`);
+        return res.data;
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.message || "Failed to delete booking";
+        throw new Error(errorMessage);
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: BOOKINGS_QUERY_KEY });
     },
     onError: (error) => {
-      console.error("Deletion failed:", error.message);
+      console.error("Booking deletion failed:", error.message);
     },
   });
 };

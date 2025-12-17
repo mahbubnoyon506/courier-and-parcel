@@ -1,4 +1,4 @@
-import { useDeleteBooking } from "@/lib/myBookings";
+import { useDeleteMyBooking } from "@/lib/myBookings";
 import { useState } from "react";
 import {
   Card,
@@ -10,28 +10,25 @@ import {
 } from "./ui/card";
 import { Edit, Locate, Package, Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
-import { getStatusVariant } from "@/lib/helper";
 import { Badge } from "./ui/badge";
 import { Booking } from "@/types/types";
 import UpdateBooking from "./UpdateBooking";
 import { StatusBadge } from "./StatusBadge";
+import { ConfirmDelete } from "./ConfirmDelete";
 
 interface BookingCardProps {
   booking: Booking;
 }
 
 export default function BookingCard({ booking }: BookingCardProps) {
-  const { mutate: deleteBooking, isPending: isDeleting } = useDeleteBooking();
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const { mutate: deleteBooking, isPending } = useDeleteMyBooking();
   const isModifiable = booking.status === "Pending";
 
   const handleDelete = () => {
-    if (
-      confirm(
-        `Are you sure you want to delete the booking for ${booking.parcelType}?`
-      )
-    ) {
-      deleteBooking(booking._id);
-    }
+    deleteBooking(booking._id, {
+      onSuccess: () => setShowDeleteConfirm(false),
+    });
   };
 
   return (
@@ -82,7 +79,7 @@ export default function BookingCard({ booking }: BookingCardProps) {
               booking={booking}
               trigger={
                 <Button size="sm" variant="outline">
-                  <Edit className="w-4 h-4 mr-2" />
+                  <Edit className="w-4 h-4" />
                   Update Parcel
                 </Button>
               }
@@ -93,17 +90,10 @@ export default function BookingCard({ booking }: BookingCardProps) {
             <Button
               variant="destructive"
               size="sm"
-              onClick={handleDelete}
-              disabled={isDeleting}
+              onClick={() => setShowDeleteConfirm(true)}
             >
-              {isDeleting ? (
-                "Deleting..."
-              ) : (
-                <>
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Delete
-                </>
-              )}
+              <Trash2 className="w-4 h-4" />
+              Delete
             </Button>
           )}
 
@@ -114,6 +104,14 @@ export default function BookingCard({ booking }: BookingCardProps) {
           )}
         </CardFooter>
       </Card>
+      <ConfirmDelete
+        isOpen={showDeleteConfirm}
+        onClose={() => setShowDeleteConfirm(false)}
+        onConfirm={handleDelete}
+        loading={isPending}
+        title="Delete Booking?"
+        description={`Are you sure you want to delete the booking for ${booking.senderId?.name}? This cannot be undone.`}
+      />
     </>
   );
 }

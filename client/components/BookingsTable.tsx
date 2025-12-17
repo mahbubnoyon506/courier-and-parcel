@@ -11,21 +11,17 @@ import {
 } from "@/components/ui/table";
 
 import { useState } from "react";
-
 import { Booking } from "@/types/types";
 import { StatusBadge } from "./StatusBadge";
 import BookingTableAction from "./BookingTableAction";
 import AssignAgentModal from "./AssignAgentModal";
-import { useAllAgents } from "@/lib/agents";
 
 type Props = {
   bookings: Booking[];
 };
 
 export default function BookingsTable({ bookings }: Props) {
-  const { data: agents, isLoading: loadingAgent } = useAllAgents();
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
-  console.log(selectedBooking);
 
   return (
     <>
