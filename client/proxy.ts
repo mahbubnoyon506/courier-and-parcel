@@ -6,6 +6,10 @@ export function proxy(req: NextRequest) {
 
   const path = req.nextUrl.pathname;
 
+  if (!token) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
   if (path.startsWith("/dashboard") && !token) {
     return NextResponse.redirect(new URL("/login", req.url));
   }

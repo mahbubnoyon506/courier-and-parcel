@@ -10,11 +10,10 @@ const bookParcel = async (req, res) => {
         parcelType,
         weight,
         paymentMethod,
-        cost
     } = req.body;
 
     // Basic validation
-    if (!pickupAddress || !deliveryAddress || !parcelType || !weight || !paymentMethod || !cost) {
+    if (!pickupAddress || !deliveryAddress || !parcelType || !weight || !paymentMethod) {
         return res.status(400).json({ message: 'Please include all required fields for booking' });
     }
 
@@ -31,7 +30,6 @@ const bookParcel = async (req, res) => {
             parcelType,
             weight,
             paymentMethod,
-            cost,
             isPaid,
             status: 'Pending',
         });

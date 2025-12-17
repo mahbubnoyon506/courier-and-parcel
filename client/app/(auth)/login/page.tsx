@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -25,6 +26,7 @@ const loginSchema = z.object({
 type LoginForm = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
+  const { refreshUser } = useAuth();
   const router = useRouter();
 
   const form = useForm<LoginForm>({
@@ -44,6 +46,8 @@ export default function LoginPage() {
       else router.push("/dashboard/user");
     } catch (err: any) {
       form.setError("root", { message: err.message });
+    } finally {
+      refreshUser();
     }
   };
 

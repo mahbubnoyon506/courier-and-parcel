@@ -36,10 +36,6 @@ const parcelSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    cost: {
-        type: Number,
-        required: true
-    },
     status: {
         type: String,
         enum: ['Pending', 'Picked Up', 'In Transit', 'Delivered', 'Failed'],

@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 type LoginResponse = {
   token: string;
@@ -92,4 +93,5 @@ export async function logoutAction() {
   const cookieStore = await cookies();
   cookieStore.delete("token");
   cookieStore.delete("role");
+  redirect("/");
 }

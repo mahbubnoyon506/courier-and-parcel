@@ -26,7 +26,6 @@ type AuthContextType = {
   isAgent: boolean;
   isCustomer: boolean;
   refreshUser: () => Promise<void>;
-  logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -35,7 +34,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 🔥 Fetch user using interceptor
   const refreshUser = async () => {
     try {
       const res = await api.get<User>("/auth/me");
@@ -51,12 +49,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refreshUser();
   }, []);
 
-  const logout = async () => {
-    await api.post("/auth/logout");
-    setUser(null);
-    window.location.href = "/login";
-  };
-
   const value: AuthContextType = {
     user,
     isLoading,
@@ -65,7 +57,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isAgent: user?.role === "agent",
     isCustomer: user?.role === "customer",
     refreshUser,
-    logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
