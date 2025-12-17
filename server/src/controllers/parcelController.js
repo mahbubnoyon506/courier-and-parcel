@@ -43,6 +43,71 @@ const bookParcel = async (req, res) => {
     }
 };
 
+const updateParcel = async (req, res) => {
+    const userId = req.user._id;
+    const userRole = req.user.role;
+    const { parcelId } = req.params;
+    console.log(parcelId, req.body);
+
+    const {
+        pickupAddress,
+        deliveryAddress,
+        parcelType,
+        weight,
+        paymentMethod,
+    } = req.body;
+
+    //Basic validation
+    if (!pickupAddress || !deliveryAddress || !parcelType || !weight || !paymentMethod) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    try {
+        //Find the parcel first to check ownership and status
+        const parcel = await Parcel.findById(parcelId);
+
+        if (!parcel) {
+            return res.status(404).json({ message: 'Parcel not found' });
+        }
+
+        //Authorization: Only the owner or an Admin can edit
+        if (parcel.senderId.toString() !== userId.toString() && userRole !== 'admin') {
+            return res.status(403).json({ message: 'You do not have permission to edit this parcel' });
+        }
+
+        //Prevent editing if already processed
+        if (parcel.status !== 'Pending') {
+            return res.status(400).json({
+                message: `Cannot edit a parcel that is already ${parcel.status}`
+            });
+        }
+
+        const updateData = {
+            pickupAddress,
+            deliveryAddress,
+            parcelType,
+            weight,
+            paymentMethod,
+            isPaid: paymentMethod === 'Prepaid'
+        };
+        console.log("Updated data...", updateData);
+
+        const updatedParcel = await Parcel.findByIdAndUpdate(
+            parcelId,
+            updateData,
+            { new: true }
+        );
+
+        res.status(200).json({
+            message: 'Parcel successfully updated.',
+            parcel: updatedParcel
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating parcel.', error: error.message });
+    }
+};
+
 
 const viewBookingHistory = async (req, res) => {
     try {
@@ -174,5 +239,6 @@ module.exports = {
     viewAssignedParcels,
     updateParcelStatus,
     getParcelTracking,
-    deleteBooking
+    deleteBooking,
+    updateParcel
 };

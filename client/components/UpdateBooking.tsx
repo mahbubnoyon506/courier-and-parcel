@@ -19,7 +19,7 @@ type Props = {
 
 export default function UpdateBooking({ booking, trigger }: Props) {
   const [open, setOpen] = useState(false);
-  const { mutate, isPending } = useUpdateBooking();
+  const { mutate: updateBooking, isPending } = useUpdateBooking();
 
   const form = useForm<BookingFormValues>({
     resolver: zodResolver(bookingSchema),
@@ -33,7 +33,10 @@ export default function UpdateBooking({ booking, trigger }: Props) {
   });
 
   const onSubmit = (values: BookingFormValues) => {
-    mutate({ id: booking._id, data: values }, { onSuccess: setOpen(false) });
+    updateBooking(
+      { id: booking._id, data: values },
+      { onSuccess: setOpen(false) }
+    );
   };
 
   return (

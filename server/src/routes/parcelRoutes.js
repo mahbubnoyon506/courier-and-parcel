@@ -4,7 +4,8 @@ const {
     bookParcel,
     viewBookingHistory,
     getParcelTracking,
-    deleteBooking
+    deleteBooking,
+    updateParcel
 } = require('../controllers/parcelController');
 const router = express.Router();
 
@@ -13,7 +14,8 @@ router.route('/:parcelId/track').get(getParcelTracking);
 
 // Protected routes
 router.route('/book-parcel').post(protect, bookParcel);
-router.route('/history').get(protect, viewBookingHistory);
-router.route('/history/:parcelId').delete(protect, deleteBooking);
+router.route('/all-bookings').get(protect, viewBookingHistory);
+router.route('/all-bookings/:parcelId').put(protect, updateParcel);
+router.route('/all-bookings/:parcelId').delete(protect, deleteBooking);
 
 module.exports = router;
