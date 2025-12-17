@@ -20,10 +20,7 @@ interface BookingCardProps {
 }
 
 export default function BookingCard({ booking }: BookingCardProps) {
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-
   const { mutate: deleteBooking, isPending: isDeleting } = useDeleteBooking();
-
   const isModifiable = booking.status === "Pending";
 
   const handleDelete = () => {
@@ -121,14 +118,6 @@ export default function BookingCard({ booking }: BookingCardProps) {
           )}
         </CardFooter>
       </Card>
-
-      {/* Placeholder for the Update Modal */}
-      {/* <UpdateBookingModal
-        isOpen={isUpdateModalOpen}
-        onClose={() => setIsUpdateModalOpen(false)}
-        booking={booking}
-      /> 
-      */}
     </>
   );
 }
