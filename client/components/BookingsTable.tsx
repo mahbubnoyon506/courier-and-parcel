@@ -23,7 +23,6 @@ type Props = {
 
 export default function BookingsTable({ bookings }: Props) {
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
-  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -49,13 +48,11 @@ export default function BookingsTable({ bookings }: Props) {
                   {booking.senderId?.email}
                 </div>
               </TableCell>
-
               <TableCell>{booking.parcelType}</TableCell>
               <TableCell>{booking.weight} kg</TableCell>
               <TableCell>
                 <StatusBadge status={booking.status} />
               </TableCell>
-
               <TableCell>
                 {booking.assignedAgentId ? (
                   booking.assignedAgentId.name
@@ -63,14 +60,11 @@ export default function BookingsTable({ bookings }: Props) {
                   <span className="text-muted-foreground">Unassigned</span>
                 )}
               </TableCell>
-
               <TableCell>{booking.paymentMethod}</TableCell>
-
               <TableCell className="text-right">
                 <BookingTableAction
                   booking={booking}
                   onAssign={setSelectedBooking}
-                  setOpen={setOpen}
                 />
               </TableCell>
             </TableRow>
@@ -81,8 +75,7 @@ export default function BookingsTable({ bookings }: Props) {
       {selectedBooking && (
         <AssignAgentModal
           booking={selectedBooking}
-          onClose={() => setOpen(false)}
-          open={open}
+          onClose={() => setSelectedBooking(null)}
         />
       )}
     </>

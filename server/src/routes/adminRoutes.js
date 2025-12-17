@@ -5,7 +5,8 @@ const {
     getAllUsers,
     getAllBookings,
     exportBookingReport,
-    getDashboardMetrics
+    getDashboardMetrics,
+    getAllAgents
 } = require('../controllers/adminController');
 const router = express.Router();
 
@@ -17,6 +18,9 @@ router.route('/parcels/:parcelId/assign').put(assignAgentToParcel);
 
 //View All Users 
 router.route('/users').get(getAllUsers);
+
+//View All Users 
+router.route('/agents').get(getAllAgents);
 
 //View All Bookings 
 router.route('/bookings').get(getAllBookings);

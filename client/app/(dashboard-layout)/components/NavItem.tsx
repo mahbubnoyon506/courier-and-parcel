@@ -19,7 +19,7 @@ export default function NavItem({ href, label, icon: Icon }: NavItemProps) {
     <Link
       href={href}
       className={cn(
-        "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-900 transition-all hover:text-primary dark:text-gray-50 dark:hover:text-primary",
+        "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-900 transition-all hover:text-primary dark:text-gray-50 dark:hover:text-primary capitalize",
         {
           "bg-gray-100 dark:bg-gray-800 text-primary font-semibold": isActive,
           "text-muted-foreground": !isActive,

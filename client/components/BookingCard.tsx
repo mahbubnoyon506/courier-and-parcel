@@ -14,6 +14,7 @@ import { getStatusVariant } from "@/lib/helper";
 import { Badge } from "./ui/badge";
 import { Booking } from "@/types/types";
 import UpdateBooking from "./UpdateBooking";
+import { StatusBadge } from "./StatusBadge";
 
 interface BookingCardProps {
   booking: Booking;
@@ -41,12 +42,7 @@ export default function BookingCard({ booking }: BookingCardProps) {
             <Package className="w-5 h-5 text-primary" />
             {booking.parcelType}
           </CardTitle>
-          <Badge
-            variant={getStatusVariant(booking.status)}
-            className="text-sm font-semibold"
-          >
-            {booking.status}
-          </Badge>
+          <StatusBadge status={booking.status} />
         </CardHeader>
 
         <CardContent className="space-y-3 pt-4">

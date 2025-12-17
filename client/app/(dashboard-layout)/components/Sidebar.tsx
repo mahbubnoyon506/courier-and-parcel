@@ -25,34 +25,24 @@ const adminItems = [
   {
     name: "Customers",
     icon: <Users />,
-    href: "customers",
+    href: "all-users",
   },
   {
     name: "Agents",
     icon: <HatGlasses />,
-    href: "agents",
+    href: "all-agents",
   },
 ];
 const agentItems = [
   {
-    name: "agent Dashboard",
+    name: "Agent Dashboard",
     icon: <Home />,
     href: "agent",
-  },
-  {
-    name: "Analytics",
-    icon: <BarChart />,
-    href: "analytics",
-  },
-  {
-    name: "agent Dashboard",
-    icon: <Settings />,
-    href: "settings",
   },
 ];
 const userItems = [
   {
-    name: "user Dashboard",
+    name: "User Dashboard",
     icon: <Home />,
     href: "user",
   },
@@ -95,7 +85,7 @@ export default function Sidebar() {
           <NavItem
             key={i}
             href={`/dashboard/${item.href}`}
-            icon={item.icon} // Pass the icon element directly
+            icon={item.icon}
             label={item.name}
           />
         ))}

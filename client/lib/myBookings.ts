@@ -60,13 +60,21 @@ export const useUpdateBooking = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, updates }: { id: string; updates: BookingFormValues }) =>
-      updateBooking(id, updates),
+    mutationFn: async ({ id, updates }: { id: string; updates: [] }) => {
+      try {
+        const res = await api.put("/book-parcel", { id, updates });
+        return res.data;
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.message || "Failed to update status";
+        throw new Error(errorMessage);
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: BOOKINGS_QUERY_KEY });
     },
     onError: (error) => {
-      console.error("Update failed:", error.message);
+      console.error("Booking creation failed:", error.message);
     },
   });
 };

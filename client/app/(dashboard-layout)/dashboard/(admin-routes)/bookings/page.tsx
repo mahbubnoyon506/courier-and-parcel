@@ -1,7 +1,7 @@
 "use client";
 import BookingsTable from "@/components/BookingsTable";
 import { Spinner } from "@/components/ui/spinner";
-import { useAllBookings } from "@/lib/allBookings";
+import { useAllBookings } from "@/lib/Bookings";
 import React from "react";
 
 const AllBookings = () => {

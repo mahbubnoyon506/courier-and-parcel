@@ -9,12 +9,12 @@ export type PaymentMethod = "COD" | "Prepaid";
 
 export interface Booking {
   _id: string;
-  assignedAgentId: {
+  assignedAgentId?: {
     _id: string;
     name: string;
     email: string;
   } | null;
-  senderId: {
+  senderId?: {
     _id: string;
     name: string;
     email: string;
@@ -29,4 +29,27 @@ export interface Booking {
   isPaid: boolean;
   createdAt: string;
   updatedAt: string;
+}
+export interface Agent {
+  _id: string;
+  name: string;
+  email: string;
+  role: "agent";
+  phone: string;
+  isAvailable: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface User {
+  _id: string;
+  auth0Id: string;
+  role: "customer";
+  name: string;
+  email: string;
+  addressLine1?: string;
+  city?: string;
+  country?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
