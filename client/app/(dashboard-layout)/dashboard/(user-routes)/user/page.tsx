@@ -30,7 +30,7 @@ export default function UserDashboard() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6 p-4 max-w-7xl mx-auto">
       <h2 className="text-2xl font-bold">My Parcel Bookings</h2>
       <CreateBooking
         trigger={

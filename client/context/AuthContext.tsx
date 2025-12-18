@@ -1,6 +1,7 @@
 "use client";
 
 import api from "@/lib/api";
+import { User } from "@/types/types";
 import {
   createContext,
   useContext,
@@ -9,14 +10,14 @@ import {
   ReactNode,
 } from "react";
 
-type Role = "admin" | "agent" | "customer";
+// type Role = "admin" | "agent" | "customer";
 
-export type User = {
-  id: string;
-  name: string;
-  email: string;
-  role: Role;
-};
+// export type User = {
+//   id: string;
+//   name: string;
+//   email: string;
+//   role: Role;
+// };
 
 type AuthContextType = {
   user: User | null;

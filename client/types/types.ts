@@ -41,12 +41,13 @@ export interface Agent {
   updatedAt: string;
 }
 
+type Role = "admin" | "agent" | "customer";
 export interface User {
   _id: string;
-  auth0Id: string;
-  role: "customer";
+  role: Role;
   name: string;
   email: string;
+  phone: string;
   addressLine1?: string;
   city?: string;
   country?: string;

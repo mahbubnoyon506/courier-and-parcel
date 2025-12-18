@@ -7,14 +7,12 @@ import {
   Package,
   Users,
   CalendarDays,
-  AlertCircle,
   Wallet,
   CheckCircle2,
   TrendingUp,
   UserCheck,
   AlertCircleIcon,
   DownloadIcon,
-  Download,
 } from "lucide-react";
 
 export default function DashboardPage() {
@@ -58,7 +56,7 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="p-6 space-y-8">
+    <div className="p-4 max-w-7xl mx-auto space-y-8">
       <div className="flex flex-col md:flex-row justify-between gap-4 md:items-end">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">
