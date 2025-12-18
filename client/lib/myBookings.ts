@@ -14,6 +14,17 @@ export function useMyBookings() {
     retry: false,
   });
 }
+export function useTrackMyBookings(id: string, enabled: boolean) {
+  return useQuery({
+    queryKey: [BOOKINGS_QUERY_KEY, id],
+    queryFn: async () => {
+      const res = await api.get(`/${id}/track`);
+      return res.data;
+    },
+    enabled: enabled, // Only fires when this is true
+    staleTime: 1000 * 60 * 5,
+  });
+}
 export function useCreateBooking() {
   const queryClient = useQueryClient();
 

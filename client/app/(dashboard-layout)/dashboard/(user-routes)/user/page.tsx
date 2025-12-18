@@ -35,14 +35,16 @@ export default function UserDashboard() {
       <CreateBooking
         trigger={
           <Button>
-            <PlusCircle className="w-4 h-4 mr-2" />
+            <PlusCircle className="w-4 h-4" />
             Book New Parcel
           </Button>
         }
       />
-      {bookings.map((booking: Booking) => (
-        <BookingCard key={booking._id} booking={booking} />
-      ))}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        {bookings?.map((booking: Booking) => (
+          <BookingCard key={booking._id} booking={booking} />
+        ))}
+      </div>
     </div>
   );
 }
