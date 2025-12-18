@@ -7,7 +7,10 @@ const {
     exportBookingReport,
     getDashboardMetrics,
     getAllAgents,
-    deleteBooking
+    deleteBooking,
+    deleteUser,
+    deleteAgent,
+    updateUserRole
 } = require('../controllers/adminController');
 const router = express.Router();
 
@@ -19,9 +22,12 @@ router.route('/parcels/:parcelId/assign').put(assignAgentToParcel);
 
 //View All Users 
 router.route('/users').get(getAllUsers);
+router.route('/users/:userId').put(updateUserRole);
+router.route('/users/:userId').delete(deleteUser);
 
 //View All Users 
 router.route('/agents').get(getAllAgents);
+router.route('/agents/:agentId').delete(deleteAgent);
 
 //View All Bookings 
 router.route('/bookings').get(getAllBookings);

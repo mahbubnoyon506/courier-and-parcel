@@ -47,7 +47,6 @@ const updateParcel = async (req, res) => {
     const userId = req.user._id;
     const userRole = req.user.role;
     const { parcelId } = req.params;
-    console.log(parcelId, req.body);
 
     const {
         pickupAddress,
@@ -187,11 +186,6 @@ const updateParcelStatus = async (req, res) => {
 
         await parcel.save();
 
-        // *** SOCKET.IO IMPLEMENTATION GOES HERE (Real-time update) ***
-        // This is where you would emit an event using Socket.IO:
-        // io.to(parcel.senderId.toString()).emit('statusUpdate', { parcelId, newStatus: status });
-        // This provides the real-time updates required 
-
         res.status(200).json({
             message: `Parcel ${parcelId} status updated to ${status}.`,
             parcel
@@ -223,7 +217,6 @@ const getParcelTracking = async (req, res) => {
                 name: parcel.assignedAgentId.name,
                 phone: parcel.assignedAgentId.phone
             } : null,
-            // Include QR Code if generated (Bonus Feature)
             qrCode: parcel.qrCode || null
         };
 

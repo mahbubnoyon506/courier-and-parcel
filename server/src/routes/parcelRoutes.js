@@ -9,10 +9,8 @@ const {
 } = require('../controllers/parcelController');
 const router = express.Router();
 
-// Public route for tracking a parcel
-router.route('/:parcelId/track').get(getParcelTracking);
+router.route('/:parcelId/track').get(protect, getParcelTracking);
 
-// Protected routes
 router.route('/book-parcel').post(protect, bookParcel);
 router.route('/all-bookings').get(protect, viewBookingHistory);
 router.route('/all-bookings/:parcelId').put(protect, updateParcel);

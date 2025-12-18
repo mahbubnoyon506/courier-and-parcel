@@ -16,7 +16,7 @@ const adminItems = [
     href: "bookings",
   },
   {
-    name: "Customers",
+    name: "Users",
     icon: <Users />,
     href: "all-users",
   },

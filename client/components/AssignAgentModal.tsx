@@ -19,21 +19,18 @@ export default function AssignAgentModal({ booking, onClose }: ModalProps) {
   const { data: agents, isLoading } = useAllAgents();
   const { mutate, isPending } = useAssignAgent();
 
-  // 1. Initialize the form
   const form = useForm({
     defaultValues: {
       agentId: booking.assignedAgentId?._id || "",
     },
   });
 
-  // 2. Map options for the select
   const agentOptions =
     agents?.map((item: Agent) => ({
       label: item.name,
       value: item._id,
     })) || [];
 
-  // 3. Handle submission
   const onSubmit = (values: { agentId: string }) => {
     console.log(values);
 

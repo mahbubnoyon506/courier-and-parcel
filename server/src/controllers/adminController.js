@@ -1,7 +1,6 @@
 const Parcel = require('../models/Parcel');
 const User = require('../models/User');
 const Parser = require('json2csv').Parser;
-// const Parser = require('json2csv');
 
 
 const assignAgentToParcel = async (req, res) => {
@@ -45,18 +44,85 @@ const assignAgentToParcel = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find({}).select('-password');
+        const users = (await User.find({}).select('-password'))
+        // .filter((user) => user.role === "customer");
         res.status(200).json(users);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching users.', error: error.message });
     }
 };
+
+const updateUserRole = async (req, res) => {
+    const userRole = req.user.role;
+    const currentUserId = req.user._id;
+    const { userId } = req.params;
+    const { newRole } = req.body;
+
+    if (userRole !== "admin") {
+        return res.status(403).json({ message: "You're not allowed to change other role" })
+    }
+    if (currentUserId === userId) {
+        return res.status(403).json({ message: "None is allowed to change own role" })
+    }
+    if (!userId) {
+        return res.status(403).json({ message: "Not a valid user id" })
+    }
+    if (!newRole) {
+        return res.status(403).json({ message: "No role provided" })
+    }
+    try {
+        const user = await User.findByIdAndUpdate(userId, {
+            role: newRole
+        }, { new: true });
+        if (!user) {
+            return res.status(403).json({ message: "Failed to update user" })
+        }
+        res.status(200).json({ message: "User role updated", user });
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating user.', error: error.message });
+    }
+};
+
+const deleteUser = async (req, res) => {
+    const { userId } = req.params;
+    if (!userId) {
+        return res.status(403).json({ message: `Not a valid user id.` })
+    }
+
+    try {
+        const user = await User.findByIdAndDelete(userId);
+        if (!user) {
+            return res.status(403).json({ message: `No user found with this id ${userId}` })
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting users.', error: error.message });
+    }
+};
+
 const getAllAgents = async (req, res) => {
     try {
         const agents = await User.find({ role: 'agent' }).select('-password');
         res.status(200).json(agents);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching users.', error: error.message });
+    }
+};
+
+const deleteAgent = async (req, res) => {
+    const { agentId } = req.params;
+    if (!agentId) {
+        return res.status(403).json({ message: `Not a valid agent id.` })
+    }
+
+    try {
+        const agent = await User.findByIdAndDelete(agentId);
+        if (!agent) {
+            return res.status(403).json({ message: `No agent found with this id ${agentId}` })
+        }
+        res.status(200).json(agent);
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting agent.', error: error.message });
     }
 };
 
@@ -77,8 +143,13 @@ const getAllBookings = async (req, res) => {
 const deleteBooking = async (req, res) => {
     try {
         const { parcelId } = req.params;
-        if (!parcelId) return res.status(403).json({ message: "No parcel id found!" })
+        if (!parcelId) return res.status(404).json({ message: "No parcel id found!" })
+
         const parcel = await Parcel.findByIdAndDelete(parcelId)
+        if (!parcel) {
+            return res.status(403).json({ message: `No item found with this id ${parcelId}` })
+        }
+
         res.status(200).json({ message: `Deleted item with id: ${parcelId}`, parcel });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting booking.', error: error.message });
@@ -90,18 +161,18 @@ const getDashboardMetrics = async (req, res) => {
         const today = new Date();
         today.setHours(0, 0, 0, 0); // Start of today
 
-        // 1. Total Counts
+        // Total Counts
         const totalParcels = await Parcel.countDocuments();
         const totalCustomers = await User.countDocuments({ role: 'customer' });
         const totalAgents = await User.countDocuments({ role: 'agent' });
 
-        // 2. Daily Bookings
+        // Daily Bookings
         const dailyBookings = await Parcel.countDocuments({ createdAt: { $gte: today } });
 
-        // 3. Failed Deliveries 
+        // Failed Deliveries 
         const failedDeliveries = await Parcel.countDocuments({ status: 'Failed' });
 
-        // 4. COD Amounts 
+        // COD Amounts 
         // Calculate total Collect On Delivery (COD) amount that is PENDING collection
         const codAggregation = await Parcel.aggregate([
             {
@@ -184,5 +255,8 @@ module.exports = {
     getAllBookings,
     getDashboardMetrics,
     exportBookingReport,
-    deleteBooking
+    deleteBooking,
+    deleteUser,
+    deleteAgent,
+    updateUserRole
 };

@@ -13,3 +13,49 @@ export function useAllUsers() {
     retry: false,
   });
 }
+
+export function useUpdateRole() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, value }: { id: string; value: string }) => {
+      try {
+        const res = await api.put(`/users/${id}`, { newRole: value });
+        return res.data;
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.message || "Failed to update role";
+        throw new Error(errorMessage);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: USERS_QUERY_KEY });
+    },
+    onError: (error) => {
+      console.error("Role updation failed:", error.message);
+    },
+  });
+}
+
+export const useDeleteUser = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      try {
+        const res = await api.delete(`/users/${id}`);
+        return res.data;
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.message || "Failed to delete user";
+        throw new Error(errorMessage);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: USERS_QUERY_KEY });
+    },
+    onError: (error) => {
+      console.error("User deletion failed:", error.message);
+    },
+  });
+};

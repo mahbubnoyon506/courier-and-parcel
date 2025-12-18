@@ -44,7 +44,7 @@ export default function BookingTableAction({ booking, onAssign }: Props) {
 
           <DropdownMenuItem
             className="text-red-600 focus:bg-red-50 focus:text-red-600"
-            onSelect={() => setShowDeleteConfirm(true)}
+            onClick={() => setShowDeleteConfirm(true)}
           >
             Delete Booking
           </DropdownMenuItem>

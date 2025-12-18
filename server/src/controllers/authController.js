@@ -11,7 +11,7 @@ const generateToken = (id) => {
 
 const registerUser = async (req, res) => {
     const { name, email, password, phone } = req.body;
-    const role = 'customer'; // Default role for registration [cite: 9]
+    const role = 'customer'; // Default role for registration
 
     const userExists = await User.findOne({ email });
 

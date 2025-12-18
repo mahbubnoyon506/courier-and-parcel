@@ -53,7 +53,7 @@ export default function LoginPage() {
 
   return (
     <div className="max-w-md mx-auto py-24">
-      <h1 className="text-3xl font-bold mb-6 text-center">Create Account</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">Login to Account</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* Name */}
