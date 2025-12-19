@@ -51,7 +51,8 @@ export default function LoginPage() {
 
   const onSubmit = async (values: LoginForm) => {
     try {
-      const { role } = await loginAction(values.email, values.password);
+      const { role, token } = await loginAction(values.email, values.password);
+      localStorage.setItem("token", token);
 
       // Refresh user context before redirecting
       await refreshUser();
@@ -61,7 +62,6 @@ export default function LoginPage() {
         agent: "/dashboard/agent",
         customer: "/dashboard/user",
       };
-
       router.push(dashboardMap[role] || "/dashboard/user");
     } catch (err) {
       form.setError("root", { message: getErrorMessage(err) });

@@ -73,7 +73,7 @@ export default function DashboardPage() {
             Logistics Overview
           </h2>
           <p className="text-muted-foreground">
-            Real-time delivery performance and metrics.
+            Real-time delivery performance and metrics?.
           </p>
         </div>
         <Button
@@ -111,28 +111,28 @@ export default function DashboardPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <MetricCard
           title="Delivered"
-          value={metrics.deliveredCount}
+          value={metrics?.deliveredCount}
           icon={CheckCircle2}
           sub="Successfully dropped off"
           accent="bg-emerald-500"
         />
         <MetricCard
           title="Agents"
-          value={metrics.totalAgents}
+          value={metrics?.totalAgents}
           icon={UserCheck}
           sub="Active on field"
           accent="bg-blue-500"
         />
         <MetricCard
           title="Pending COD"
-          value={`$${metrics.totalPendingCOD}`}
+          value={`$${metrics?.totalPendingCOD}`}
           icon={Wallet}
           sub="Uncollected cash"
           accent="bg-orange-500"
         />
         <MetricCard
           title="Failed"
-          value={metrics.failedDeliveries}
+          value={metrics?.failedDeliveries}
           icon={AlertCircleIcon}
           sub="Needs attention"
           accent="bg-red-500"
@@ -149,7 +149,7 @@ export default function DashboardPage() {
             <div className="text-center">
               <Package className="h-10 w-10 text-muted-foreground/40 mx-auto mb-2" />
               <p className="text-sm text-muted-foreground">
-                Chart: Visualizing {metrics.totalParcels} parcels
+                Chart: Visualizing {metrics?.totalParcels} parcels
               </p>
             </div>
           </CardContent>
@@ -164,19 +164,19 @@ export default function DashboardPage() {
               <div className="flex justify-between items-center">
                 <span className="text-sm">Delivery Completion</span>
                 <span className="text-sm font-bold">
-                  {metrics.successRate}%
+                  {metrics?.successRate}%
                 </span>
               </div>
               {/* Visual Progress Bar */}
               <div className="w-full bg-secondary h-2 rounded-full overflow-hidden">
                 <div
                   className="bg-emerald-500 h-full transition-all"
-                  style={{ width: `${metrics.successRate}%` }}
+                  style={{ width: `${metrics?.successRate}%` }}
                 />
               </div>
               <p className="text-xs text-muted-foreground italic">
-                * Based on {metrics.deliveredCount} successful out of{" "}
-                {metrics.totalParcels} total.
+                * Based on {metrics?.deliveredCount} successful out of{" "}
+                {metrics?.totalParcels} total.
               </p>
             </div>
           </CardContent>

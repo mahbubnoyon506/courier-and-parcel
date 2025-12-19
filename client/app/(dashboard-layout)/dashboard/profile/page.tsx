@@ -60,7 +60,10 @@ export default function ProfilePage() {
           <Button
             variant="destructive"
             className="gap-2"
-            onClick={() => logoutAction()}
+            onClick={() => {
+              logoutAction();
+              localStorage.removeItem("token");
+            }}
           >
             <LogOut className="w-4 h-4" /> Logout
           </Button>

@@ -62,7 +62,10 @@ export default function UserNav() {
           <DropdownMenuSeparator />
 
           <DropdownMenuItem
-            onClick={() => logoutAction()}
+            onClick={() => {
+              logoutAction();
+              localStorage.removeItem("token");
+            }}
             className="text-red-600 focus:bg-red-50 focus:text-red-700 dark:focus:bg-red-900/50 cursor-pointer"
           >
             <LogOut className="mr-2 h-4 w-4" />

@@ -39,6 +39,7 @@ import {
 import { registerAction } from "@/app/actions/auth";
 import Link from "next/link";
 import { getErrorMessage } from "@/lib/helper";
+import { useAuth } from "@/context/AuthContext";
 
 const registerSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -50,6 +51,7 @@ const registerSchema = z.object({
 type RegisterForm = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
+  const { refreshUser } = useAuth();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -65,8 +67,10 @@ export default function RegisterPage() {
 
   const onSubmit = async (values: RegisterForm) => {
     try {
-      const { role } = await registerAction(values);
+      const { role, token } = await registerAction(values);
 
+      localStorage.setItem("token", token);
+      await refreshUser();
       const dashboardMap: Record<string, string> = {
         admin: "/dashboard/admin",
         agent: "/dashboard/agent",

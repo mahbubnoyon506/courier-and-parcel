@@ -20,12 +20,11 @@ export async function registerAction(values: {
   email: string;
   phone: string;
   password: string;
-}): Promise<{ role: RegisterResponse["role"] }> {
+}) {
   const res = await fetch(`${API_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(values),
-    credentials: "include",
   });
 
   if (!res.ok) {
@@ -51,42 +50,36 @@ export async function registerAction(values: {
     path: "/",
   });
 
-  return { role: data.role };
+  return { role: data.role, token: data.token };
 }
 
-export async function loginAction(
-  email: string,
-  password: string
-): Promise<{ role: LoginResponse["role"] }> {
+export async function loginAction(email: string, password: string) {
   const res = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
   });
 
-  if (!res.ok) {
-    throw new Error("Invalid credentials");
-  }
+  if (!res.ok) throw new Error("Invalid credentials");
 
   const data: LoginResponse = await res.json();
-
   const cookieStore = await cookies();
 
   cookieStore.set("token", data.token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     sameSite: "lax",
     path: "/",
   });
 
   cookieStore.set("role", data.role, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     sameSite: "lax",
     path: "/",
   });
 
-  return { role: data.role };
+  return { role: data.role, token: data.token };
 }
 
 export async function logoutAction() {

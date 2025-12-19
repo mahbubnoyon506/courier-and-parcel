@@ -67,7 +67,7 @@ export function CreateBooking({ trigger }: Props) {
                 <MapPin className="w-4 h-4" />
                 Route Information
               </div>
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-4 w-full">
                 <TextInput
                   control={form.control}
                   name="pickupAddress"
@@ -91,7 +91,7 @@ export function CreateBooking({ trigger }: Props) {
                 <Package className="w-4 h-4" />
                 Parcel Specifications
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 w-full">
                 <SelectInput
                   control={form.control}
                   name="parcelType"

@@ -1,5 +1,6 @@
 "use client";
 
+import EmptyState from "@/components/EmptyState";
 import UserCard from "@/components/UserCard";
 import { useAllUsers } from "@/lib/Users";
 import { User } from "@/types/types";
@@ -12,9 +13,7 @@ export default function AllUsers() {
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-3">
         <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-        <p className="text-muted-foreground animate-pulse">
-          Loading directory...
-        </p>
+        <p className="text-muted-foreground animate-pulse">Loading users...</p>
       </div>
     );
   }
@@ -40,11 +39,15 @@ export default function AllUsers() {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {users?.map((user: User) => (
-          <UserCard key={user._id} user={user} />
-        ))}
-      </div>
+      {users.length ? (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {users?.map((user: User) => (
+            <UserCard key={user._id} user={user} />
+          ))}
+        </div>
+      ) : (
+        <EmptyState context="user" />
+      )}
     </div>
   );
 }

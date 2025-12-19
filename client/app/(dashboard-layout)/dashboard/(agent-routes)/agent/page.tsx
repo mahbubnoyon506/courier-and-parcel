@@ -1,5 +1,6 @@
 "use client";
 import AssignedBookings from "@/components/AssignedBookings";
+import EmptyState from "@/components/EmptyState";
 import { Spinner } from "@/components/ui/spinner";
 import { useAssignedParcels, useUpdateStatus } from "@/lib/Bookings";
 import { Booking } from "@/types/types";
@@ -29,7 +30,6 @@ export default function AgentDashboard() {
     );
   }
 
-  // Calculate stats for the header
   const total = bookings?.length || 0;
   const pending =
     bookings?.filter((b: Booking) => b.status === "Picked Up").length || 0;
@@ -68,10 +68,14 @@ export default function AgentDashboard() {
       </div>
 
       <div className="bg-card rounded-xl border shadow-sm overflow-hidden">
-        <AssignedBookings
-          bookings={bookings}
-          onStatusChange={(id, status) => updateStatus({ id, status })}
-        />
+        {bookings.length ? (
+          <AssignedBookings
+            bookings={bookings}
+            onStatusChange={(id, status) => updateStatus({ id, status })}
+          />
+        ) : (
+          <EmptyState context="assigned parcel" />
+        )}
       </div>
     </div>
   );

@@ -73,7 +73,6 @@ const loginUser = async (req, res) => {
 };
 
 const getMe = async (req, res) => {
-    console.log("User...", req.user);
     if (!req.user) {
         return res.status(401).json({ message: 'Not authorized' });
     }

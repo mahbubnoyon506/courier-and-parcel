@@ -1,6 +1,7 @@
 "use client";
 
 import AgentCard from "@/components/AgentCard";
+import EmptyState from "@/components/EmptyState";
 import { useAllAgents } from "@/lib/Agents";
 import { Agent } from "@/types/types";
 import { Truck, UserCheck, UserMinus } from "lucide-react";
@@ -47,11 +48,15 @@ export default function AgentsGrid() {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {agents?.map((agent: Agent) => (
-          <AgentCard key={agent._id} agent={agent} />
-        ))}
-      </div>
+      {agents.length ? (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {agents?.map((agent: Agent) => (
+            <AgentCard key={agent._id} agent={agent} />
+          ))}
+        </div>
+      ) : (
+        <EmptyState context="agent" />
+      )}
     </div>
   );
 }

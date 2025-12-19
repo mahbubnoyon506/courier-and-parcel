@@ -1,5 +1,6 @@
 "use client";
 import BookingsTable from "@/components/BookingsTable";
+import EmptyState from "@/components/EmptyState";
 import { Spinner } from "@/components/ui/spinner";
 import { useAllBookings } from "@/lib/Bookings";
 import { Booking } from "@/types/types";
@@ -91,7 +92,11 @@ const AllBookings = () => {
       </div>
 
       <div className="bg-card border rounded-2xl shadow-sm overflow-hidden">
-        <BookingsTable bookings={bookings} />
+        {bookings.length ? (
+          <BookingsTable bookings={bookings} />
+        ) : (
+          <EmptyState context="bookings" />
+        )}
       </div>
     </div>
   );

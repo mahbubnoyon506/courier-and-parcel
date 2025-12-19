@@ -2,6 +2,7 @@
 
 import BookingCard from "@/components/BookingCard";
 import { CreateBooking } from "@/components/CreateBooking";
+import EmptyState from "@/components/EmptyState";
 
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -40,11 +41,15 @@ export default function UserDashboard() {
           </Button>
         }
       />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {bookings?.map((booking: Booking) => (
-          <BookingCard key={booking._id} booking={booking} />
-        ))}
-      </div>
+      {bookings.length ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          {bookings?.map((booking: Booking) => (
+            <BookingCard key={booking._id} booking={booking} />
+          ))}
+        </div>
+      ) : (
+        <EmptyState context="parcel" />
+      )}
     </div>
   );
 }
