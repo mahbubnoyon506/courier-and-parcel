@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "./api";
 import { handleApiError } from "./helper";
+import { toast } from "sonner";
 
 const USERS_QUERY_KEY = ["all-users"];
 
@@ -27,11 +28,17 @@ export function useUpdateRole() {
         throw new Error(handleApiError(error, "Failed to update role"));
       }
     },
-    onSuccess: () => {
+    onMutate: () => {
+      toast.loading("Updating user role...", { id: "update-role" });
+    },
+    onSuccess: (data) => {
+      toast.success(data.message || "Role updated successfully", {
+        id: "update-role",
+      });
       queryClient.invalidateQueries({ queryKey: USERS_QUERY_KEY });
     },
     onError: (error) => {
-      console.error("Role updation failed:", error.message);
+      toast.error(error.message, { id: "update-role" });
     },
   });
 }
@@ -48,11 +55,17 @@ export const useDeleteUser = () => {
         throw new Error(handleApiError(error, "Failed to delete user"));
       }
     },
-    onSuccess: () => {
+    onMutate: () => {
+      toast.loading("Deleting user...", { id: "delete-user" });
+    },
+    onSuccess: (data) => {
+      toast.success(data.message || "User deleted successfully", {
+        id: "delete-user",
+      });
       queryClient.invalidateQueries({ queryKey: USERS_QUERY_KEY });
     },
     onError: (error) => {
-      console.error("User deletion failed:", error.message);
+      toast.error(error.message, { id: "delete-user" });
     },
   });
 };

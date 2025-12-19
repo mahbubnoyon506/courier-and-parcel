@@ -44,7 +44,10 @@ export function UpdateRole({ user }: { user: User }) {
           variant="outline"
           size="sm"
           className="capitalize"
-          disabled={isPending || authedUser?.role === user?.role}
+          disabled={
+            isPending ||
+            (authedUser?.role === "admin" && authedUser?._id === user._id)
+          }
         >
           {user.role} <ChevronDown className="ml-2 h-4 w-4 opacity-50" />
         </Button>
@@ -56,7 +59,6 @@ export function UpdateRole({ user }: { user: User }) {
         {roles.map((role) => (
           <DropdownMenuItem
             key={role.value}
-            disabled={user.role === role.value}
             onClick={() => mutate({ id: user._id, value: role.value })}
             className="flex items-center gap-2 cursor-pointer"
           >

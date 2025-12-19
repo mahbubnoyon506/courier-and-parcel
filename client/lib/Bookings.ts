@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "./api";
 import { ParcelStatus } from "@/types/types";
 import { handleApiError } from "./helper";
+import { toast } from "sonner";
 
 const BOOKINGS_QUERY_KEY = ["customer's-bookings"];
 const PARCEL_QUERY_KEY = ["agent's-bookings"];
@@ -17,6 +18,7 @@ export function useAllBookings() {
   });
 }
 
+// --- DELETE BOOKING ---
 export const useDeleteBooking = () => {
   const queryClient = useQueryClient();
 
@@ -29,11 +31,17 @@ export const useDeleteBooking = () => {
         throw new Error(handleApiError(error, "Failed to delete booking"));
       }
     },
-    onSuccess: () => {
+    onMutate: () => {
+      toast.loading("Deleting booking...", { id: "delete-booking" });
+    },
+    onSuccess: (data) => {
+      toast.success(data.message || "Booking deleted successfully", {
+        id: "delete-booking",
+      });
       queryClient.invalidateQueries({ queryKey: BOOKINGS_QUERY_KEY });
     },
     onError: (error) => {
-      console.error("Booking deletion failed:", error.message);
+      toast.error(error.message, { id: "delete-booking" });
     },
   });
 };
@@ -49,6 +57,7 @@ export function useAssignedParcels() {
   });
 }
 
+// --- UPDATE STATUS ---
 export const useUpdateStatus = () => {
   const queryClient = useQueryClient();
 
@@ -67,15 +76,23 @@ export const useUpdateStatus = () => {
         throw new Error(handleApiError(error, "Failed to update status"));
       }
     },
-    onSuccess: () => {
+    onMutate: () => {
+      toast.loading("Updating parcel status...", { id: "update-status" });
+    },
+    onSuccess: (data) => {
+      toast.success(
+        data.message || `Status updated to ${data.status || "new state"}`,
+        { id: "update-status" }
+      );
       queryClient.invalidateQueries({ queryKey: PARCEL_QUERY_KEY });
     },
     onError: (error) => {
-      console.error("Status update failed:", error.message);
+      toast.error(error.message, { id: "update-status" });
     },
   });
 };
 
+// --- ASSIGN AGENT ---
 export const useAssignAgent = () => {
   const queryClient = useQueryClient();
 
@@ -94,11 +111,17 @@ export const useAssignAgent = () => {
         throw new Error(handleApiError(error, "Failed to assign parcel"));
       }
     },
-    onSuccess: () => {
+    onMutate: () => {
+      toast.loading("Assigning agent to parcel...", { id: "assign-agent" });
+    },
+    onSuccess: (data) => {
+      toast.success(data.message || "Agent assigned successfully", {
+        id: "assign-agent",
+      });
       queryClient.invalidateQueries({ queryKey: BOOKINGS_QUERY_KEY });
     },
     onError: (error) => {
-      console.error("Assign parcel failed:", error.message);
+      toast.error(error.message, { id: "assign-agent" });
     },
   });
 };

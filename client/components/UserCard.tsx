@@ -46,7 +46,7 @@ export default function UserCard({ user }: Props) {
       <Card className="flex flex-col h-full hover:shadow-md transition-all group border-muted-foreground/10">
         <CardHeader className="flex flex-row items-center gap-4 pb-4">
           {/* Avatar / Initials */}
-          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg border-2 border-primary/20">
+          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg border-2 border-primary/20 whitespace-nowrap">
             {user.name.charAt(0).toUpperCase()}
           </div>
           <div className="overflow-hidden">
