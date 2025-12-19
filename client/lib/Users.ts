@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "./api";
+import { handleApiError } from "./helper";
 
 const USERS_QUERY_KEY = ["all-users"];
 
@@ -22,10 +23,8 @@ export function useUpdateRole() {
       try {
         const res = await api.put(`/users/${id}`, { newRole: value });
         return res.data;
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.message || "Failed to update role";
-        throw new Error(errorMessage);
+      } catch (error) {
+        throw new Error(handleApiError(error, "Failed to update role"));
       }
     },
     onSuccess: () => {
@@ -45,10 +44,8 @@ export const useDeleteUser = () => {
       try {
         const res = await api.delete(`/users/${id}`);
         return res.data;
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.message || "Failed to delete user";
-        throw new Error(errorMessage);
+      } catch (error) {
+        throw new Error(handleApiError(error, "Failed to delete user"));
       }
     },
     onSuccess: () => {

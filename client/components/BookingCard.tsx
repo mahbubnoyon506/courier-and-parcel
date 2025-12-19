@@ -17,7 +17,6 @@ import {
   Calendar,
   Weight,
   CreditCard,
-  ChevronRight,
   Loader2,
   AlertCircle,
   Search,

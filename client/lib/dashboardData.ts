@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "./api";
+import { handleApiError } from "./helper";
 
 const DASHBOARD_QUERY_KEY = ["dashboard-data"];
 
@@ -36,8 +37,8 @@ export const useExportReport = () => {
       link.remove();
       window.URL.revokeObjectURL(url);
     },
-    onError: (error: any) => {
-      console.error("Download failed:", error.message);
+    onError: (error) => {
+      throw new Error(handleApiError(error, "Failed to delete booking"));
     },
   });
 };

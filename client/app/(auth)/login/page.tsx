@@ -27,6 +27,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { getErrorMessage } from "@/lib/helper";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -62,10 +63,8 @@ export default function LoginPage() {
       };
 
       router.push(dashboardMap[role] || "/dashboard/user");
-    } catch (err: any) {
-      form.setError("root", {
-        message: err.message || "Invalid email or password. Please try again.",
-      });
+    } catch (err) {
+      form.setError("root", { message: getErrorMessage(err) });
     }
   };
 

@@ -232,7 +232,7 @@ function InfoItem({
 }
 
 // Mock icon for the placeholder
-function Lock(props: any) {
+function Lock(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}

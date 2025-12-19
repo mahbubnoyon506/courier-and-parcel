@@ -38,6 +38,7 @@ import {
 } from "lucide-react";
 import { registerAction } from "@/app/actions/auth";
 import Link from "next/link";
+import { getErrorMessage } from "@/lib/helper";
 
 const registerSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -73,10 +74,8 @@ export default function RegisterPage() {
       };
 
       router.push(dashboardMap[role] || "/dashboard/user");
-    } catch (err: any) {
-      form.setError("root", {
-        message: err.message || "Registration failed. Please try again.",
-      });
+    } catch (err) {
+      form.setError("root", { message: getErrorMessage(err) });
     }
   };
 

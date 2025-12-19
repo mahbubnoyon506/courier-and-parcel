@@ -11,9 +11,10 @@ import {
   Clock,
 } from "lucide-react";
 import { format } from "date-fns"; // Optional: npm install date-fns
+import { Tracking } from "@/types/types";
 
 interface TrackingModalProps {
-  data: any; // Ideally use your Tracking interface
+  data: Tracking;
   open: boolean;
   onClose: () => void;
 }

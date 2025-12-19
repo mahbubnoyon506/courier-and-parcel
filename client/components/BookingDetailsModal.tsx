@@ -1,4 +1,3 @@
-// components/booking/BookingDetailsModal.tsx
 "use client";
 
 import { Booking } from "@/types/types";

@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "./api";
+import { handleApiError } from "./helper";
 
 const AGENTS_QUERY_KEY = ["all-agents"];
 
@@ -22,10 +23,8 @@ export const useDeleteAgent = () => {
       try {
         const res = await api.delete(`/agents/${id}`);
         return res.data;
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.message || "Failed to delete Agent";
-        throw new Error(errorMessage);
+      } catch (error) {
+        throw new Error(handleApiError(error, "Failed to delete Agent"));
       }
     },
     onSuccess: () => {

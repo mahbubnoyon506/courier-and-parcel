@@ -2,6 +2,7 @@
 import BookingsTable from "@/components/BookingsTable";
 import { Spinner } from "@/components/ui/spinner";
 import { useAllBookings } from "@/lib/bookings";
+import { Booking } from "@/types/types";
 import { LayoutDashboard, Package, Clock, CheckCircle2 } from "lucide-react";
 import React from "react";
 
@@ -39,14 +40,16 @@ const AllBookings = () => {
     },
     {
       label: "Pending",
-      value: bookings?.filter((b: any) => b.status === "Pending").length || 0,
+      value:
+        bookings?.filter((b: Booking) => b.status === "Pending").length || 0,
       icon: Clock,
       color: "text-orange-600",
       bg: "bg-orange-50",
     },
     {
       label: "Delivered",
-      value: bookings?.filter((b: any) => b.status === "Delivered").length || 0,
+      value:
+        bookings?.filter((b: Booking) => b.status === "Delivered").length || 0,
       icon: CheckCircle2,
       color: "text-green-600",
       bg: "bg-green-50",

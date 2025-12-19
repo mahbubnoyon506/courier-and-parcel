@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "./api";
 import { BookingFormValues } from "./schemas";
+import { handleApiError } from "./helper";
 
 const BOOKINGS_QUERY_KEY = ["bookings"];
 
@@ -33,10 +34,8 @@ export function useCreateBooking() {
       try {
         const res = await api.post("/book-parcel", newBookingData);
         return res.data;
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.message || "Failed to create booking";
-        throw new Error(errorMessage);
+      } catch (error) {
+        throw new Error(handleApiError(error, "Failed to create booking"));
       }
     },
     onSuccess: () => {
@@ -57,17 +56,15 @@ export function useUpdateBooking() {
       data,
     }: {
       id: string;
-      updatedData: BookingFormValues;
+      data: BookingFormValues;
     }) => {
       console.log(data);
 
       try {
         const res = await api.put(`/all-bookings/${id}`, data);
         return res.data;
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.message || "Failed to create booking";
-        throw new Error(errorMessage);
+      } catch (error) {
+        throw new Error(handleApiError(error, "Failed to create booking"));
       }
     },
     onSuccess: () => {
@@ -88,10 +85,8 @@ export const useDeleteMyBooking = () => {
       try {
         const res = await api.delete(`/all-bookings/${id}`);
         return res.data;
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.message || "Failed to delete booking";
-        throw new Error(errorMessage);
+      } catch (error) {
+        throw new Error(handleApiError(error, "Failed to delete booking"));
       }
     },
     onSuccess: () => {

@@ -2,6 +2,7 @@
 import AssignedBookings from "@/components/AssignedBookings";
 import { Spinner } from "@/components/ui/spinner";
 import { useAssignedParcels, useUpdateStatus } from "@/lib/bookings";
+import { Booking } from "@/types/types";
 import { Truck, Clock } from "lucide-react";
 
 export default function AgentDashboard() {
@@ -31,7 +32,7 @@ export default function AgentDashboard() {
   // Calculate stats for the header
   const total = bookings?.length || 0;
   const pending =
-    bookings?.filter((b: any) => b.status === "Picked Up").length || 0;
+    bookings?.filter((b: Booking) => b.status === "Picked Up").length || 0;
 
   return (
     <div className="space-y-6 p-4 max-w-7xl mx-auto">

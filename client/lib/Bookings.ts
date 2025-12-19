@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "./api";
 import { ParcelStatus } from "@/types/types";
+import { handleApiError } from "./helper";
 
 const BOOKINGS_QUERY_KEY = ["customer's-bookings"];
 const PARCEL_QUERY_KEY = ["agent's-bookings"];
@@ -24,10 +25,8 @@ export const useDeleteBooking = () => {
       try {
         const res = await api.delete(`/bookings/${id}`);
         return res.data;
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.message || "Failed to delete booking";
-        throw new Error(errorMessage);
+      } catch (error) {
+        throw new Error(handleApiError(error, "Failed to delete booking"));
       }
     },
     onSuccess: () => {
@@ -64,10 +63,8 @@ export const useUpdateStatus = () => {
       try {
         const res = await api.put(`/parcels/${id}/status`, { status });
         return res.data;
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.message || "Failed to update status";
-        throw new Error(errorMessage);
+      } catch (error) {
+        throw new Error(handleApiError(error, "Failed to update status"));
       }
     },
     onSuccess: () => {
@@ -88,15 +85,13 @@ export const useAssignAgent = () => {
       agentId,
     }: {
       parcelId: string;
-      agentId: ParcelStatus;
+      agentId: string;
     }) => {
       try {
         const res = await api.put(`/parcels/${parcelId}/assign`, { agentId });
         return res.data;
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.data?.message || "Failed to assign parcel";
-        throw new Error(errorMessage);
+      } catch (error) {
+        throw new Error(handleApiError(error, "Failed to assign parcel"));
       }
     },
     onSuccess: () => {

@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useDashboardData, useExportReport } from "@/lib/dashboardData";
+import { type LucideIcon } from "lucide-react";
 
 import {
   Package,
@@ -15,6 +16,15 @@ import {
   DownloadIcon,
 } from "lucide-react";
 
+interface MetricCardProps {
+  title: string;
+  value: string | number;
+  icon: LucideIcon;
+  sub: string;
+  accent: string;
+  iconColor?: string;
+}
+
 export default function DashboardPage() {
   const { data: metrics, isLoading } = useDashboardData();
   const { mutate: exportReport, isPending } = useExportReport();
@@ -27,28 +37,28 @@ export default function DashboardPage() {
   const stats = [
     {
       title: "Total Parcels",
-      value: metrics.totalParcels,
+      value: metrics?.totalParcels,
       icon: Package,
       description: "Lifetime shipments",
       color: "text-blue-600",
     },
     {
       title: "Success Rate",
-      value: `${metrics.successRate}%`,
+      value: `${metrics?.successRate}%`,
       icon: TrendingUp,
       description: "Delivery efficiency",
       color: "text-emerald-600",
     },
     {
       title: "Total Customers",
-      value: metrics.totalCustomers,
+      value: metrics?.totalCustomers,
       icon: Users,
       description: "Active senders",
       color: "text-violet-600",
     },
     {
       title: "Daily Bookings",
-      value: metrics.dailyBookings,
+      value: metrics?.dailyBookings,
       icon: CalendarDays,
       description: "Booked today",
       color: "text-orange-600",
@@ -177,7 +187,13 @@ export default function DashboardPage() {
 }
 
 // Helper component for small metric cards
-function MetricCard({ title, value, icon: Icon, sub, accent }: any) {
+function MetricCard({
+  title,
+  value,
+  icon: Icon,
+  sub,
+  accent,
+}: MetricCardProps) {
   return (
     <div className="flex items-center gap-4 p-4 rounded-xl border bg-card shadow-sm">
       <div className={`p-2 rounded-lg ${accent} bg-opacity-10`}>

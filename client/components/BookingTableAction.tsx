@@ -1,4 +1,3 @@
-// components/booking/BookingActions.tsx
 "use client";
 
 import { MoreHorizontal } from "lucide-react";
