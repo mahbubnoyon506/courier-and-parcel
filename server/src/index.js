@@ -2,8 +2,6 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const http = require('http');
-const { Server } = require('socket.io');
 
 dotenv.config();
 const authRoute = require("./routes/authRoutes")
@@ -13,13 +11,6 @@ const adminRoute = require("./routes/adminRoutes");
 const connectDB = require('./config/db');
 
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-    cors: {
-        origin: 'http://localhost:3000',
-        methods: ['GET', 'POST']
-    }
-});
 
 // Middleware
 app.use(express.json());
@@ -28,7 +19,7 @@ app.use(cookieParser());
 
 // Enable CORS for frontend
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.FRONTEND_DOMAIN,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
 }));
@@ -54,22 +45,8 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'Something went wrong!' });
 });
 
-io.on('connection', (socket) => {
-    console.log('A user connected:', socket.id);
-
-    // Example: Join a room based on user ID for notifications
-    socket.on('joinRoom', (userId) => {
-        socket.join(userId);
-        console.log(`Socket ${socket.id} joined room ${userId}`);
-    });
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
-});
-
 // Start Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
