@@ -1,7 +1,7 @@
 "use client";
 import BookingsTable from "@/components/BookingsTable";
 import { Spinner } from "@/components/ui/spinner";
-import { useAllBookings } from "@/lib/bookings";
+import { useAllBookings } from "@/lib/Bookings";
 import { Booking } from "@/types/types";
 import { LayoutDashboard, Package, Clock, CheckCircle2 } from "lucide-react";
 import React from "react";

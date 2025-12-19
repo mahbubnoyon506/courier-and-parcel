@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { useUpdateRole } from "@/lib/users";
+import { useUpdateRole } from "@/lib/Users";
 import { User } from "@/types/types";
 import { useAuth } from "@/context/AuthContext";
 

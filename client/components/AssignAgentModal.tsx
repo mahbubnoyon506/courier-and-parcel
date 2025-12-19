@@ -3,12 +3,12 @@
 import { useForm } from "react-hook-form";
 import { Agent, Booking } from "@/types/types";
 import { Modal } from "./ui/Modal";
-import { useAllAgents } from "@/lib/agents";
+import { useAllAgents } from "@/lib/Agents";
 import { SelectInput } from "./ui/FormFields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { toast } from "sonner";
-import { useAssignAgent } from "@/lib/bookings";
+import { useAssignAgent } from "@/lib/Bookings";
 
 type ModalProps = {
   booking: Booking;

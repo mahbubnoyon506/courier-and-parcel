@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Booking } from "@/types/types";
-import { useDeleteBooking } from "@/lib/bookings";
+import { useDeleteBooking } from "@/lib/Bookings";
 import { ConfirmDelete } from "./ConfirmDelete";
 import { useState } from "react";
 

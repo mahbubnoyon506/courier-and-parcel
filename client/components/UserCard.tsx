@@ -9,7 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { User } from "@/types/types";
 import { useState } from "react";
-import { useDeleteUser } from "@/lib/users";
+import { useDeleteUser } from "@/lib/Users";
 import { Button } from "./ui/button";
 import { Trash2, Mail, MapPin, Shield } from "lucide-react";
 import { ConfirmDelete } from "./ConfirmDelete";

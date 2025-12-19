@@ -1,7 +1,7 @@
 "use client";
 
 import AgentCard from "@/components/AgentCard";
-import { useAllAgents } from "@/lib/agents";
+import { useAllAgents } from "@/lib/Agents";
 import { Agent } from "@/types/types";
 import { Truck, UserCheck, UserMinus } from "lucide-react";
 

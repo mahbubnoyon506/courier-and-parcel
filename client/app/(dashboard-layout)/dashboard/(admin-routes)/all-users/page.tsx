@@ -1,7 +1,7 @@
 "use client";
 
 import UserCard from "@/components/UserCard";
-import { useAllUsers } from "@/lib/users";
+import { useAllUsers } from "@/lib/Users";
 import { User } from "@/types/types";
 import { Users, ShieldCheck } from "lucide-react";
 
