@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const swaggerUi = require('swagger-ui-express');
 
 dotenv.config();
 const authRoute = require("./routes/authRoutes")
@@ -38,6 +39,11 @@ app.use("/api/auth/", authRoute)
 app.use("/api/", customersRoute)
 app.use("/api/", agetRoute)
 app.use("/api/", adminRoute)
+
+// API docs start
+const swaggerSpec = require('./lib/swagerDocs');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+//API docs end
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
