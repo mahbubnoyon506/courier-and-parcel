@@ -8,7 +8,7 @@ A full-stack MERN logistics platform designed to streamline parcel booking, agen
 ### 🚀 Live Links
 
 * **Frontend:** [https://courier-and-parcel.vercel.app](https://courier-and-parcel.vercel.app)
-* **Backend:** [https://courier-and-parcel.onrender.com](https://www.google.com/search?q=https://courier-and-parcel.onrender.com)
+* **Backend:** [https://courier-and-parcel.onrender.com](https://courier-and-parcel.onrender.com)
 
 ---
 
@@ -71,7 +71,7 @@ To overcome browser restrictions between Vercel and Render, the system uses a **
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/your-username/courier-and-parcel.git
+git clone https://github.com/mahbubnoyon506/courier-and-parcel.git
 
 ```
 
