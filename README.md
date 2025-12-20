@@ -8,7 +8,7 @@ A full-stack MERN logistics platform designed to streamline parcel booking, agen
 ### 🚀 Live Links
 
 * **Frontend:** [https://courier-and-parcel.vercel.app](https://courier-and-parcel.vercel.app)
-* **Backend:** [https://courier-and-parcel.onrender.com](https://courier-and-parcel.onrender.com)
+* **Backend:** [https://courier-and-parcel.onrender.com/api-docs](https://courier-and-parcel.onrender.com/api-docs)
 
 ---
 
